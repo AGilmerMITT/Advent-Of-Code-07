@@ -68,9 +68,27 @@ namespace Advent_Of_Code_07
                 {
                     result += d.GetSize();
                 }
-                d.PrintContentsCompact();
+                // d.PrintContentsCompact();
             }
             Console.WriteLine($"total of items <= {threshold}: {result}");
+
+            const int totalFileSystemSize = 70_000_000;
+            int currentFileSystemOccupancy = home.GetSize();
+
+            Console.WriteLine("Current system occupancy: " + currentFileSystemOccupancy);
+
+            int availableSpace = totalFileSystemSize - currentFileSystemOccupancy;
+            const int requiredSpace = 30_000_000;
+
+            int minimumRemoval = requiredSpace - availableSpace;
+            Console.WriteLine("Minimum removal size: " + minimumRemoval);
+
+            var directoryToDelete = Directories.Where(d => d.GetSize() >= minimumRemoval)
+                .OrderBy(d => d.GetSize())
+                .First();
+
+            Console.WriteLine("Smallest suitable deletion candidate size: " + directoryToDelete.GetSize());
+            directoryToDelete.PrintContents();
         }
 
         static string GetInput(string prompt)
